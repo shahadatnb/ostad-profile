@@ -1,9 +1,33 @@
 <template>
-<a href="#" class="flex flex-col items-center bg-white border border-gray-200 rounded-lg shadow md:flex-row md:max-w-xl hover:bg-gray-100 dark:border-gray-700 dark:bg-gray-800 dark:hover:bg-gray-700">
-    <img class="object-cover w-full rounded-t-lg h-96 md:h-auto md:w-48 md:rounded-none md:rounded-l-lg" src="/docs/images/blog/image-4.jpg" alt="">
-    <div class="flex flex-col justify-between p-4 leading-normal">
-        <h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">Noteworthy technology acquisitions 2021</h5>
-        <p class="mb-3 font-normal text-gray-700 dark:text-gray-400">Here are the biggest enterprise technology acquisitions of 2021 so far, in reverse chronological order.</p>
+    <div class="flex">
+        <img class="object-cover flex-none w-1/2 h-96" :src="product.thumbnail" alt="">
+        <div class="ml-5">
+            <h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">{{ product.title }}</h5>
+            <p class="mb-3 font-normal text-gray-700 dark:text-gray-400">
+                $ {{ product.price }}
+            </p>
+            <p class="mb-3 font-normal text-gray-700 dark:text-gray-400">
+                {{ product.description }}
+            </p>
+        </div>
     </div>
-</a>
 </template>
+<script setup>
+import { reactive, onBeforeMount } from 'vue'
+import axios from 'axios'
+import { useRoute } from 'vue-router';
+const route = useRoute()
+const id = route.params.id
+const product = reactive({})
+onBeforeMount(() => {
+    axios.get(`https://dummyjson.com/products/${id}`)
+        .then(res => {
+            product.id = res.data.id
+            product.title = res.data.title
+            product.description = res.data.description
+            product.price = res.data.price
+            product.thumbnail = res.data.thumbnail
+        })
+})
+
+</script>
