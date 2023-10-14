@@ -23,9 +23,6 @@ const routes = [
         meta:{
             requiresAuth: true
         }
-    },
-    {
-        path: '/logout', component: Profile, 'name': 'profile'
     }
 ]
 
